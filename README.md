@@ -1,7 +1,7 @@
 # acetechlimited.net
 
-Marketing site for AceTech Limited, a product and engineering company working on real money
-gaming platforms. The flagship platform is AceHigh Poker.
+Marketing site for AceTech Limited, a product and engineering company working on gaming
+platforms and tech apps. The flagship platform is AceHigh Poker.
 
 ## What this is
 
