@@ -4,6 +4,10 @@
   --canvas:#0a0b0f;
   --surface:#0e1015;
   --card:#14161d;
+
+  /* translucent variants so the animated background reads through */
+  --surface-a:rgba(14,16,21,.66);
+  --card-a:rgba(20,22,29,.62);
   --card-border:#232733;
   --card-border-hov:#3a3320;
 
@@ -38,9 +42,10 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{background:var(--canvas)}
 body{
   margin:0;
-  background:var(--canvas);
+  background:transparent;
   color:var(--text-primary);
   font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
   font-size:16px;
@@ -56,6 +61,9 @@ ul{margin:0;padding:0;list-style:none}
 dl,dd,dt{margin:0}
 
 .wrap{max-width:var(--container-max);margin:0 auto;padding:0 var(--container-pad)}
+
+/* the background canvases sit at z-index -2 and -1, so content rides above them */
+.nav,main,.footer{position:relative;z-index:1}
 
 /* keep anchored sections clear of the sticky nav */
 section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
@@ -114,8 +122,8 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 .hero-glow{
   position:absolute;inset:-20% -10% auto -10%;height:720px;pointer-events:none;
   background:
-    radial-gradient(52% 40% at 78% 18%,rgba(233,185,73,.16),transparent 62%),
-    radial-gradient(44% 38% at 12% 8%,rgba(47,158,116,.12),transparent 64%);
+    radial-gradient(52% 40% at 78% 18%,rgba(233,185,73,.07),transparent 62%),
+    radial-gradient(44% 38% at 12% 8%,rgba(47,158,116,.05),transparent 64%);
   filter:blur(6px);
 }
 .hero::after{
@@ -166,7 +174,7 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 .sep{opacity:.5}
 
 /* ---------- Marquee ---------- */
-.marquee{border-block:1px solid var(--card-border);background:var(--surface);overflow:hidden;padding:15px 0}
+.marquee{border-block:1px solid var(--card-border);background:var(--surface-a);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);overflow:hidden;padding:15px 0}
 .marquee-track{display:flex;gap:44px;width:max-content;animation:slide 46s linear infinite}
 .marquee-track span{display:inline-flex;align-items:center;gap:44px;font-size:13.5px;color:var(--text-muted);white-space:nowrap;letter-spacing:.02em}
 .marquee-track span::before{content:"◆";color:var(--accent);font-size:9px;opacity:.75}
@@ -180,7 +188,7 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 
 /* ---------- Sections ---------- */
 .section{padding:96px 0}
-.section-alt{background:var(--surface);border-block:1px solid var(--card-border)}
+.section-alt{background:var(--surface-a);border-block:1px solid var(--card-border)}
 .label{display:block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
 .section h2{font-size:clamp(28px,3.6vw,42px);font-weight:700;margin-bottom:20px}
 .section-lede{color:var(--text-body);font-size:16.5px;max-width:68ch;margin-bottom:52px}
@@ -188,7 +196,7 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 .grid{display:grid;gap:20px}
 .grid-3{grid-template-columns:repeat(3,1fr)}
 .card{
-  background:var(--card);border:1px solid var(--card-border);
+  background:var(--card-a);border:1px solid var(--card-border);
   border-radius:var(--radius-lg);padding:28px 26px;
   transition:border-color var(--t-base),transform var(--t-base),box-shadow var(--t-base);
 }
@@ -199,14 +207,14 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 
 /* ---------- Process ---------- */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.step{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:28px 24px;position:relative;overflow:hidden}
+.step{background:var(--card-a);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:28px 24px;position:relative;overflow:hidden}
 .step::before{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:linear-gradient(180deg,var(--accent),transparent)}
 .step-num{display:block;font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:14px}
 .step h3{font-size:19px;font-weight:600;margin-bottom:11px}
 .step p{color:var(--text-body);font-size:14.8px;line-height:1.7}
 
 /* ---------- Case study ---------- */
-.case{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-xl);padding:40px;overflow:hidden}
+.case{background:var(--card-a);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--card-border);border-radius:var(--radius-xl);padding:40px;overflow:hidden}
 .case-head{display:grid;grid-template-columns:1.55fr .85fr;gap:44px;align-items:start;padding-bottom:36px;border-bottom:1px solid var(--card-border)}
 .case-tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px}
 .case-title{font-size:clamp(26px,3vw,34px);font-weight:700;margin-bottom:16px}
@@ -227,7 +235,7 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 
 /* ---------- Stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--card-border);border:1px solid var(--card-border);border-radius:var(--radius-lg);overflow:hidden;margin-top:12px}
-.stat{background:var(--canvas);padding:36px 28px;display:flex;flex-direction:column;gap:7px}
+.stat{background:rgba(10,11,15,.62);padding:36px 28px;display:flex;flex-direction:column;gap:7px}
 .stat-num{font-family:"Space Grotesk",sans-serif;font-size:clamp(32px,4vw,46px);font-weight:700;color:var(--accent);line-height:1;letter-spacing:-.03em}
 .stat-label{font-size:15px;font-weight:600;color:var(--text-primary);margin-top:6px}
 .stat-note{font-size:13.5px;color:var(--text-muted)}
@@ -239,13 +247,13 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 .why-copy p{color:var(--text-body);font-size:16.5px;margin-bottom:18px}
 .why-list{display:flex;flex-direction:column;gap:6px}
 .why-list li{display:flex;gap:16px;padding:18px;border:1px solid transparent;border-radius:var(--radius-md);transition:border-color var(--t-base),background var(--t-base)}
-.why-list li:hover{border-color:var(--card-border);background:var(--card)}
+.why-list li:hover{border-color:var(--card-border);background:var(--card-a)}
 .why-list li > span{color:var(--accent);font-size:14px;line-height:1.7;flex:none}
 .why-list strong{display:block;font-size:15.5px;font-weight:600;color:var(--text-primary);margin-bottom:4px}
 .why-list div{color:var(--text-body);font-size:14.5px;line-height:1.65}
 
 /* ---------- CTA ---------- */
-.cta{position:relative;padding:96px 0;border-top:1px solid var(--card-border);background:var(--surface);overflow:hidden}
+.cta{position:relative;padding:96px 0;border-top:1px solid var(--card-border);background:var(--surface-a);overflow:hidden}
 .cta::before{
   content:"";position:absolute;inset:auto 0 -60% 0;height:420px;pointer-events:none;
   background:radial-gradient(48% 60% at 50% 100%,rgba(233,185,73,.15),transparent 70%);
@@ -256,7 +264,7 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
 .cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
 /* ---------- Footer ---------- */
-.footer{background:var(--canvas);border-top:1px solid var(--card-border);padding:60px 0 28px}
+.footer{background:rgba(10,11,15,.72);border-top:1px solid var(--card-border);padding:60px 0 28px}
 .footer-inner{display:grid;grid-template-columns:1.3fr 2fr;gap:56px;padding-bottom:40px}
 .footer-brand p{color:var(--text-muted);font-size:14.5px;margin-top:16px;max-width:38ch}
 .footer-links{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
