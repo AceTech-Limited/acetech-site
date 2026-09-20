@@ -102,6 +102,10 @@
     '  g *= mix(1.0, smoothstep(0.06, 0.54, ux), wide);',
     '  g *= mix(0.34, 1.0, wide);',
 
+    /* full strength across the hero, then well back so it never competes
+       with body copy in the content sections */
+    '  g *= mix(1.0, 0.40, smoothstep(0.015, 0.13, u_scroll));',
+
     /* green carries the body, gold only lights the hottest cores, so they never mix to olive */
     '  vec3 green = vec3(0.129, 0.549, 0.404);',
     '  vec3 gold  = vec3(1.000, 0.804, 0.361);',

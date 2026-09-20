@@ -305,3 +305,99 @@ section[id],[id]{scroll-margin-top:calc(var(--nav-height) + 20px)}
   .cta-actions .btn{flex:1 1 100%}
   .footer-legal{flex-direction:column;gap:8px}
 }
+
+/* ==================================================================
+   Motion and pointer polish
+   Everything below is driven by classes that JavaScript adds, so with
+   scripting off the page simply renders in its finished state.
+   ================================================================== */
+
+/* ---- scroll reveal ---- */
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .75s cubic-bezier(.16,.84,.26,1) var(--rd,0ms),
+             transform .75s cubic-bezier(.16,.84,.26,1) var(--rd,0ms);
+  will-change:opacity,transform;
+}
+.reveal.in{opacity:1;transform:none;will-change:auto}
+
+/* ---- scroll progress ---- */
+.progress{
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--felt),var(--accent));
+  transform:scaleX(0);transform-origin:0 50%;
+  z-index:120;pointer-events:none;
+}
+
+/* ---- pointer spotlight on cards ---- */
+.lit{position:relative}
+.lit::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  border-radius:inherit;opacity:0;
+  transition:opacity .4s ease;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),
+             rgba(233,185,73,.11),transparent 68%);
+}
+.lit:hover::after{opacity:1}
+/* the step card already uses ::before for its rule, so its glow rides above it */
+.step.lit::after{border-radius:var(--radius-lg)}
+
+/* ---- nav underline ---- */
+.nav-links a{position:relative}
+.nav-links a::after{
+  content:"";position:absolute;left:0;right:0;bottom:-6px;height:1.5px;
+  background:var(--accent);border-radius:2px;
+  transform:scaleX(0);transform-origin:100% 50%;
+  transition:transform .38s cubic-bezier(.16,.84,.26,1);
+}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:0 50%}
+
+/* ---- custom cursor ---- */
+.has-cursor,
+.has-cursor a,
+.has-cursor button,
+.has-cursor .btn,
+.has-cursor .card,
+.has-cursor .nav-toggle{cursor:none}
+
+.cur-dot,.cur-ring{
+  position:fixed;top:0;left:0;
+  pointer-events:none;border-radius:50%;
+  opacity:0;
+}
+.cur-dot{
+  width:6px;height:6px;background:var(--accent);
+  z-index:9999;
+  box-shadow:0 0 10px rgba(233,185,73,.8);
+  transition:opacity .25s ease,transform .08s linear,width .25s ease,height .25s ease;
+}
+.cur-ring{
+  width:34px;height:34px;
+  border:1.5px solid rgba(233,185,73,.5);
+  z-index:9998;
+  transition:opacity .3s ease,width .3s cubic-bezier(.16,.84,.26,1),
+             height .3s cubic-bezier(.16,.84,.26,1),
+             border-color .3s ease,background-color .3s ease;
+}
+.cur-dot.on,.cur-ring.on{opacity:1}
+.cur-ring.hot{
+  width:58px;height:58px;
+  border-color:var(--accent);
+  background-color:rgba(233,185,73,.07);
+}
+.cur-dot.hot{opacity:0}
+.cur-ring.down{width:26px;height:26px;background-color:rgba(233,185,73,.16)}
+
+/* Touch, coarse pointers and anyone who asked for less motion keep the
+   native cursor and get the page in its resting state. */
+@media (pointer:coarse),(max-width:899px){
+  .cur-dot,.cur-ring{display:none}
+  .has-cursor,.has-cursor *{cursor:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .lit::after{display:none}
+  .progress{transition:none}
+  .cur-dot,.cur-ring{display:none}
+}
