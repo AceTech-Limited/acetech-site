@@ -1,5 +1,23 @@
 # business@acetechlimited.net, at no cost
 
+> **Do not use this setup. Superseded 21 September 2026.**
+>
+> The sending half depends on Gmail's "Send mail as" for outside addresses, and Google
+> is removing it. Their notice (support.google.com/mail/answer/17101213) says it stops
+> entirely in January 2027, and that during the transition from Q3 2026 "Gmail may
+> restrict new configurations". So new setups may already be refused, and existing ones
+> stop in January.
+>
+> Receiving is unaffected: Google confirms forwarding into Gmail keeps working. But a
+> receive-only address means replying from a personal Gmail, which is not acceptable
+> for a business address.
+>
+> What still works after January is a real mailbox with its own sending. The cheapest is
+> Zoho Mail Lite at 1 US dollar per user per month billed annually, 5 GB. Google
+> Workspace also works and is explicitly unaffected, at about six times the price.
+>
+> The rest of this document is kept as the record of why the free route was rejected.
+
 This sets up a working business address that both receives and sends, for nothing,
 using two free services instead of one paid mailbox.
 
